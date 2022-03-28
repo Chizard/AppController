@@ -4,9 +4,20 @@
     <title>Redir</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
+<script>
+    var Play = function() {
+        fetch("/play", { method: "POST"});
+        console.log("Hejopp");
+    }
+</script>
 <body>
 <h1> Redirect of request </h1>
-<p th:text="${code}" />
+<!--<p th:text="${code}" /> -->
 <!-- <button type="button" class="btn btn-primary" onclick="${code}"></button> -->
+
+<button type="button" onclick="Play()">Play</button>
+
+
+
 </body>
 </html>

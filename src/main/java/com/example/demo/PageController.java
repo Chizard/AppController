@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import se.michaelthelin.spotify.SpotifyApi;
@@ -18,6 +19,7 @@ import se.michaelthelin.spotify.requests.authorization.authorization_code.Author
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 import se.michaelthelin.spotify.requests.data.albums.GetAlbumRequest;
 import se.michaelthelin.spotify.requests.data.albums.GetAlbumsTracksRequest;
+import se.michaelthelin.spotify.requests.data.player.StartResumeUsersPlaybackRequest;
 import se.michaelthelin.spotify.requests.data.users_profile.GetUsersProfileRequest;
 
 import java.io.IOException;
@@ -40,10 +42,20 @@ public class PageController {
             .setRedirectUri(redirectUri)
             .build();
 
+
     static final AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyApi.authorizationCodeUri()
 //          .state("x4xkmn9pu3j6ukrs8n")
-            .scope("user-read-email,user-read-private")
+            .scope("user-read-email,user-read-private,user-modify-playback-state,user-read-currently-playing,user-read-playback-state")
 //          .show_dialog(true)
+            .build();
+
+    private static final StartResumeUsersPlaybackRequest startResumeUsersPlaybackRequest = spotifyApi
+            .startResumeUsersPlayback()
+//          .context_uri("spotify:album:5zT1JLIj9E57p3e1rFm9Uq")
+//          .device_id("5fbb3ba6aa454b5534c4ba43a8c7e8e45a63ad0e")
+//          .offset(JsonParser.parseString("{\"uri\":\"spotify:track:01iyCAUm8EvOFqVWYJ3dVX\"}").getAsJsonObject())
+//          .uris(JsonParser.parseString("[\"spotify:track:01iyCAUm8EvOFqVWYJ3dVX\"]").getAsJsonArray())
+//          .position_ms(10000)
             .build();
 
     public static void authorizationCodeUri_Sync() {
@@ -56,9 +68,22 @@ public class PageController {
         return "user";
     }
 
+    @PostMapping("/play")
+    public void play(){
+        try {
+            final String string = spotifyApi
+                    .startResumeUsersPlayback().build().execute();
+
+            System.out.println("Null: " + string);
+        } catch (IOException | SpotifyWebApiException | org.apache.hc.core5.http.ParseException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
     @GetMapping("/redir")
     public String redir(@RequestParam(name = "code", required = false) String code, Model model) {
         model.addAttribute("code", code);
+        System.out.println("check");
 
         final AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(code)
                 .build();
