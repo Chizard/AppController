@@ -19,6 +19,7 @@ import se.michaelthelin.spotify.requests.authorization.authorization_code.Author
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 import se.michaelthelin.spotify.requests.data.albums.GetAlbumRequest;
 import se.michaelthelin.spotify.requests.data.albums.GetAlbumsTracksRequest;
+import se.michaelthelin.spotify.requests.data.player.PauseUsersPlaybackRequest;
 import se.michaelthelin.spotify.requests.data.player.StartResumeUsersPlaybackRequest;
 import se.michaelthelin.spotify.requests.data.users_profile.GetUsersProfileRequest;
 
@@ -58,6 +59,10 @@ public class PageController {
 //          .position_ms(10000)
             .build();
 
+    private static final PauseUsersPlaybackRequest pauseUsersPlaybackRequest = spotifyApi.pauseUsersPlayback()
+//          .device_id("5fbb3ba6aa454b5534c4ba43a8c7e8e45a63ad0e")
+            .build();
+
     public static void authorizationCodeUri_Sync() {
         final URI uri = authorizationCodeUriRequest.execute();
         System.out.println("URI: " + uri.toString());
@@ -74,7 +79,18 @@ public class PageController {
             final String string = spotifyApi
                     .startResumeUsersPlayback().build().execute();
 
-            System.out.println("Null: " + string);
+            //System.out.println("Null: " + string);
+        } catch (IOException | SpotifyWebApiException | org.apache.hc.core5.http.ParseException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/pause")
+    public void pause(){
+        try {
+            final String string = spotifyApi.pauseUsersPlayback().build().execute();
+
+            //System.out.println("Null: " + string);
         } catch (IOException | SpotifyWebApiException | org.apache.hc.core5.http.ParseException e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -83,7 +99,7 @@ public class PageController {
     @GetMapping("/redir")
     public String redir(@RequestParam(name = "code", required = false) String code, Model model) {
         model.addAttribute("code", code);
-        System.out.println("check");
+        //System.out.println("check");
 
         final AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(code)
                 .build();
