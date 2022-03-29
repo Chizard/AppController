@@ -20,6 +20,8 @@ import se.michaelthelin.spotify.requests.authorization.authorization_code.Author
 import se.michaelthelin.spotify.requests.data.albums.GetAlbumRequest;
 import se.michaelthelin.spotify.requests.data.albums.GetAlbumsTracksRequest;
 import se.michaelthelin.spotify.requests.data.player.PauseUsersPlaybackRequest;
+import se.michaelthelin.spotify.requests.data.player.SkipUsersPlaybackToNextTrackRequest;
+import se.michaelthelin.spotify.requests.data.player.SkipUsersPlaybackToPreviousTrackRequest;
 import se.michaelthelin.spotify.requests.data.player.StartResumeUsersPlaybackRequest;
 import se.michaelthelin.spotify.requests.data.users_profile.GetUsersProfileRequest;
 
@@ -63,6 +65,16 @@ public class PageController {
 //          .device_id("5fbb3ba6aa454b5534c4ba43a8c7e8e45a63ad0e")
             .build();
 
+    private static final SkipUsersPlaybackToPreviousTrackRequest skipUsersPlaybackToPreviousTrackRequest = spotifyApi
+            .skipUsersPlaybackToPreviousTrack()
+//          .device_id("5fbb3ba6aa454b5534c4ba43a8c7e8e45a63ad0e")
+            .build();
+
+    private static final SkipUsersPlaybackToNextTrackRequest skipUsersPlaybackToNextTrackRequest = spotifyApi
+            .skipUsersPlaybackToNextTrack()
+//          .device_id("5fbb3ba6aa454b5534c4ba43a8c7e8e45a63ad0e")
+            .build();
+
     public static void authorizationCodeUri_Sync() {
         final URI uri = authorizationCodeUriRequest.execute();
         System.out.println("URI: " + uri.toString());
@@ -95,6 +107,29 @@ public class PageController {
             System.out.println("Error: " + e.getMessage());
         }
     }
+
+    @PostMapping("/previous")
+    public void previous() {
+        try {
+            final String string = spotifyApi.skipUsersPlaybackToPreviousTrack().build().execute();
+
+            //System.out.println("Null: " + string);
+        } catch (IOException | SpotifyWebApiException | org.apache.hc.core5.http.ParseException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/next")
+    public void next() {
+        try {
+            final String string = spotifyApi.skipUsersPlaybackToNextTrack().build().execute();
+
+            //System.out.println("Null: " + string);
+        } catch (IOException | SpotifyWebApiException | org.apache.hc.core5.http.ParseException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
 
     @GetMapping("/redir")
     public String redir(@RequestParam(name = "code", required = false) String code, Model model) {

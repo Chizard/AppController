@@ -11,7 +11,14 @@
 
     var Pause = function() {
     fetch("/pause", { method: "POST"});
+   }
 
+   var Previous = function() {
+   fetch("/previous", { method: "POST"})
+   }
+
+   var Next = function() {
+   fetch("/next", { method: "POST"})
    }
 </script>
 <body>
@@ -19,8 +26,10 @@
 <!--<p th:text="${code}" /> -->
 <!-- <button type="button" class="btn btn-primary" onclick="${code}"></button> -->
 
+<button type="button" onclick="Previous()"><<</button>
 <button type="button" onclick="Play()">Play</button>
 <button type="button" onclick="Pause()">Pause</button>
+<button type="button" onclick="Next()">>></button>
 
 
 
