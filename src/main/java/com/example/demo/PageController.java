@@ -55,24 +55,24 @@ public class PageController {
     private static final StartResumeUsersPlaybackRequest startResumeUsersPlaybackRequest = spotifyApi
             .startResumeUsersPlayback()
 //          .context_uri("spotify:album:5zT1JLIj9E57p3e1rFm9Uq")
-//          .device_id("5fbb3ba6aa454b5534c4ba43a8c7e8e45a63ad0e")
+            .device_id("1b6c9a4b4760cb26b8aecf9b93bd66193dd75217")
 //          .offset(JsonParser.parseString("{\"uri\":\"spotify:track:01iyCAUm8EvOFqVWYJ3dVX\"}").getAsJsonObject())
 //          .uris(JsonParser.parseString("[\"spotify:track:01iyCAUm8EvOFqVWYJ3dVX\"]").getAsJsonArray())
 //          .position_ms(10000)
             .build();
 
     private static final PauseUsersPlaybackRequest pauseUsersPlaybackRequest = spotifyApi.pauseUsersPlayback()
-//          .device_id("5fbb3ba6aa454b5534c4ba43a8c7e8e45a63ad0e")
+            .device_id("1b6c9a4b4760cb26b8aecf9b93bd66193dd75217")
             .build();
 
     private static final SkipUsersPlaybackToPreviousTrackRequest skipUsersPlaybackToPreviousTrackRequest = spotifyApi
             .skipUsersPlaybackToPreviousTrack()
-//          .device_id("5fbb3ba6aa454b5534c4ba43a8c7e8e45a63ad0e")
+            .device_id("1b6c9a4b4760cb26b8aecf9b93bd66193dd75217")
             .build();
 
     private static final SkipUsersPlaybackToNextTrackRequest skipUsersPlaybackToNextTrackRequest = spotifyApi
             .skipUsersPlaybackToNextTrack()
-//          .device_id("5fbb3ba6aa454b5534c4ba43a8c7e8e45a63ad0e")
+            .device_id("1b6c9a4b4760cb26b8aecf9b93bd66193dd75217")
             .build();
 
     public static void authorizationCodeUri_Sync() {
