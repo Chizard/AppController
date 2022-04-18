@@ -1,8 +1,6 @@
 package com.example.demo;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +9,7 @@ import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
+import se.michaelthelin.spotify.model_objects.miscellaneous.CurrentlyPlaying;
 import se.michaelthelin.spotify.model_objects.specification.Album;
 import se.michaelthelin.spotify.model_objects.specification.Paging;
 import se.michaelthelin.spotify.model_objects.specification.TrackSimplified;
@@ -19,15 +18,12 @@ import se.michaelthelin.spotify.requests.authorization.authorization_code.Author
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 import se.michaelthelin.spotify.requests.data.albums.GetAlbumRequest;
 import se.michaelthelin.spotify.requests.data.albums.GetAlbumsTracksRequest;
-import se.michaelthelin.spotify.requests.data.player.PauseUsersPlaybackRequest;
-import se.michaelthelin.spotify.requests.data.player.SkipUsersPlaybackToNextTrackRequest;
-import se.michaelthelin.spotify.requests.data.player.SkipUsersPlaybackToPreviousTrackRequest;
-import se.michaelthelin.spotify.requests.data.player.StartResumeUsersPlaybackRequest;
+import se.michaelthelin.spotify.requests.data.player.*;
 import se.michaelthelin.spotify.requests.data.users_profile.GetUsersProfileRequest;
 
 import java.io.IOException;
 import java.net.URI;
-import java.text.ParseException;
+import java.util.*;
 
 @org.springframework.stereotype.Controller
 public class PageController {
@@ -44,6 +40,7 @@ public class PageController {
             .setClientSecret(clientSecret)
             .setRedirectUri(redirectUri)
             .build();
+
 
 
     static final AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyApi.authorizationCodeUri()
@@ -79,6 +76,12 @@ public class PageController {
         final URI uri = authorizationCodeUriRequest.execute();
         System.out.println("URI: " + uri.toString());
     }
+
+    private static final GetUsersCurrentlyPlayingTrackRequest getUsersCurrentlyPlayingTrackRequest = spotifyApi
+            .getUsersCurrentlyPlayingTrack()
+//          .market(CountryCode.SE)
+//          .additionalTypes("track,episode")
+            .build();
 
     @RequestMapping("/user")
     public String user() {
@@ -130,6 +133,20 @@ public class PageController {
         }
     }
 
+    @GetMapping("/currentsong")
+    public void CurrentSong(){
+
+        try {
+            final CurrentlyPlaying currentlyPlaying = spotifyApi.getUsersCurrentlyPlayingTrack().build().execute();
+
+            long minutes = (currentlyPlaying.getProgress_ms() / 1000) / 60;
+            long seconds = (currentlyPlaying.getProgress_ms() / 1000) % 60;
+            System.out.println(minutes + " minutes and " + seconds + " seconds");
+            System.out.println(currentlyPlaying.getItem().getName());
+        } catch (IOException | SpotifyWebApiException | org.apache.hc.core5.http.ParseException e) {
+            System.out.println("ErrorSong: " + e.getMessage());
+        }
+    }
 
     @GetMapping("/redir")
     public String redir(@RequestParam(name = "code", required = false) String code, Model model) {

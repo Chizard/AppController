@@ -3,6 +3,7 @@
 <head>
     <title>Redir</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:href="@{/styles.css}" rel="stylesheet" />
 </head>
 <script>
     var Play = function() {
@@ -20,17 +21,24 @@
    var Next = function() {
    fetch("/next", { method: "POST"})
    }
+
+   var CurrentSong = function() {
+   fetch("/currentsong", { method: "GET"})
+   }
+
 </script>
 <body>
 <h1> Spotify Play </h1>
 <!--<p th:text="${code}" /> -->
 <!-- <button type="button" class="btn btn-primary" onclick="${code}"></button> -->
+<div class="button_container">
+<button type="button" class="btn prev" onclick="Previous()"></button>
+<button type="button" class="btn play" onclick="Play()"></button>
+<button type="button" class="btn pause" onclick="Pause()"></button>
+<button type="button" class="btn next" onclick="Next()"></button>
+    <button type="button" onclick="CurrentSong()"></button>
 
-<button type="button" onclick="Previous()"><<</button>
-<button type="button" onclick="Play()">|></button>
-<button type="button" onclick="Pause()">||</button>
-<button type="button" onclick="Next()">>></button>
-
+</div>
 
 
 </body>
