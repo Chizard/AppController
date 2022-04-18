@@ -141,8 +141,11 @@ public class PageController {
 
             long minutes = (currentlyPlaying.getProgress_ms() / 1000) / 60;
             long seconds = (currentlyPlaying.getProgress_ms() / 1000) % 60;
-            System.out.println(minutes + " minutes and " + seconds + " seconds");
+            long DurationMinutes = (currentlyPlaying.getItem().getDurationMs() / 1000) / 60;
+            long DurationSeconds = (currentlyPlaying.getItem().getDurationMs() / 1000) % 60;
+
             System.out.println(currentlyPlaying.getItem().getName());
+            System.out.println(minutes + ":" + seconds + " / " + DurationMinutes + ":" + DurationSeconds);
         } catch (IOException | SpotifyWebApiException | org.apache.hc.core5.http.ParseException e) {
             System.out.println("ErrorSong: " + e.getMessage());
         }
