@@ -1,10 +1,7 @@
 package com.example.demo;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
@@ -27,7 +24,6 @@ import java.util.*;
 
 @org.springframework.stereotype.Controller
 public class PageController {
-
     static final String clientId = "89a4bb620ad848989b787b700f508fe3";
     static final String clientSecret = "f37b655edd98488b9a7185fd0eab7036";
     static final URI redirectUri = SpotifyHttpManager.makeUri("http://localhost:8888/redir");
@@ -133,21 +129,55 @@ public class PageController {
         }
     }
 
-    @GetMapping("/currentsong")
-    public void CurrentSong(){
+    @RequestMapping(value="/currentduration", headers = "Accept=application/json")
+    @ResponseBody
+    public String CurrentDuration(){
 
         try {
             final CurrentlyPlaying currentlyPlaying = spotifyApi.getUsersCurrentlyPlayingTrack().build().execute();
 
+            long DurationMinutes = (currentlyPlaying.getItem().getDurationMs() / 1000) / 60;
+            long DurationSeconds = (currentlyPlaying.getItem().getDurationMs() / 1000) % 60;
+            String duration = (DurationMinutes > 9 ? String.valueOf(DurationMinutes) : "0" + DurationMinutes) + ":" +
+                    (DurationSeconds > 9 ? String.valueOf(DurationSeconds) : "0" + DurationSeconds);
+            //System.out.println(minutes + ":" + seconds + " / " + DurationMinutes + ":" + DurationSeconds);
+            return "{ \"duration\":\"" + duration + "\"}";
+        } catch (IOException | SpotifyWebApiException | org.apache.hc.core5.http.ParseException e) {
+            return "{ \"duration\":\" no access token  \"}";
+        }
+    }
+
+    @RequestMapping(value="/currenttime", headers = "Accept=application/json")
+    @ResponseBody
+    public String CurrentTime(){
+
+        try {
+            final CurrentlyPlaying currentlyPlaying = spotifyApi.getUsersCurrentlyPlayingTrack().build().execute();
             long minutes = (currentlyPlaying.getProgress_ms() / 1000) / 60;
             long seconds = (currentlyPlaying.getProgress_ms() / 1000) % 60;
             long DurationMinutes = (currentlyPlaying.getItem().getDurationMs() / 1000) / 60;
             long DurationSeconds = (currentlyPlaying.getItem().getDurationMs() / 1000) % 60;
-
-            System.out.println(currentlyPlaying.getItem().getName());
-            System.out.println(minutes + ":" + seconds + " / " + DurationMinutes + ":" + DurationSeconds);
+            String timer = (minutes > 9 ? String.valueOf(minutes) : "0" + minutes) + ":" +
+                    (seconds > 9 ? String.valueOf(seconds) : "0" + seconds);
+            //System.out.println(minutes + ":" + seconds + " / " + DurationMinutes + ":" + DurationSeconds);
+            return "{ \"time\":\"" + timer + "\"}";
         } catch (IOException | SpotifyWebApiException | org.apache.hc.core5.http.ParseException e) {
-            System.out.println("ErrorSong: " + e.getMessage());
+            return "{ \"time\":\" no access token  \"}";
+        }
+    }
+
+
+    @RequestMapping(value="/currentsong", headers = "Accept=application/json")
+    @ResponseBody
+    public String CurrentSong(){
+
+        try {
+            final CurrentlyPlaying currentlyPlaying = spotifyApi.getUsersCurrentlyPlayingTrack().build().execute();
+           // System.out.println(currentlyPlaying.getItem().getName());
+            return "{ \"name\":\"" + currentlyPlaying.getItem().getName() + "\"}";
+        } catch (IOException | SpotifyWebApiException | org.apache.hc.core5.http.ParseException e) {
+           // System.out.println("ErrorSong: " + e.getMessage());
+            return "{ \"name\":\" no access token  \"}";
         }
     }
 
@@ -155,6 +185,7 @@ public class PageController {
     public String redir(@RequestParam(name = "code", required = false) String code, Model model) {
         model.addAttribute("code", code);
         //System.out.println("check");
+
 
         final AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(code)
                 .build();
@@ -212,7 +243,10 @@ public class PageController {
                 System.out.println("Error: " + e.getMessage());
             }
 
+
             return "redir";
         }
-}
+
+    }
+
 

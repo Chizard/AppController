@@ -1,8 +1,33 @@
+body {
+    background-color: #32AF46;
+}
+
 h1 {
     font-family: sans-serif;
     font-size: 5em;
     text-transform: uppercase;
+    text-align: center;
 }
+hr.rounded {
+  border-top: 8px solid #000;
+  border-radius: 5px;
+}
+
+#logo {
+
+}
+
+#text {
+    font-family: fantasy;
+    font-size: 50px;
+    /* display: flex; */
+    /* display: inline-flex; */
+    /* display: flex; */
+    position: absolute;
+    margin-left: 200px;
+    margin-top: 60px;
+}
+
 strong {
     font-weight: 0.1;
     background-color: yellow;
@@ -11,32 +36,46 @@ strong {
 .button_container {
       text-align: center;
       position: relative;
-      margin-top: 37%;
+      margin-top: 25%;
 }
 
 .btn {
+  cursor: pointer;
   border: 1px solid rgba(0, 0, 0, 1);
   height: 100px;
   width: 100px;
-  border-radius: 50%;
+  /*border-radius: 50%;*/
   background-position: center;
   background-size: 50%;
   background-repeat: no-repeat;
   text-align: center
 }
 
+
 .next {
   background: url('https://icons.getbootstrap.com/assets/icons/chevron-bar-right.svg') center/50% no-repeat;
 }
+.next:active {
+  background: url('https://icons.getbootstrap.com/assets/icons/chevron-bar-right.svg') center/100% no-repeat;
+}
 
 .prev {
-  background-image: url('https://icons.getbootstrap.com/assets/icons/chevron-bar-left.svg');
+  background: url('https://icons.getbootstrap.com/assets/icons/chevron-bar-left.svg') center/50% no-repeat;
+}
+.prev:active {
+  background: url('https://icons.getbootstrap.com/assets/icons/chevron-bar-left.svg') center/100% no-repeat;
 }
 
 .play {
-    background-image: url('https://icons.getbootstrap.com/assets/icons/play-fill.svg');
+    background: url('https://icons.getbootstrap.com/assets/icons/play-fill.svg') center/50% no-repeat;
+}
+.play:active {
+    background: url('https://icons.getbootstrap.com/assets/icons/play-fill.svg') center/100% no-repeat;
 }
 
 .pause {
-    background-image: url('https://icons.getbootstrap.com/assets/icons/pause-fill.svg');
+    background: url('https://icons.getbootstrap.com/assets/icons/pause-fill.svg') center/50% no-repeat;
+}
+.pause:active {
+    background: url('https://icons.getbootstrap.com/assets/icons/pause-fill.svg') center/100% no-repeat;
 }

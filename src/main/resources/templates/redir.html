@@ -6,6 +6,34 @@
     <link th:href="@{/styles.css}" rel="stylesheet" />
 </head>
 <script>
+
+     setInterval(() =>{
+       fetch("/currentsong", { method: "GET"}).then(async (data)=>{
+        let res = await data.json();
+
+        let elmSongname= document.getElementById("songname");
+        elmSongname.innerHTML=res.name;
+    });
+   },2000);
+
+     setInterval(() =>{
+       fetch("/currenttime", { method: "GET"}).then(async (data)=>{
+        let res = await data.json();
+
+        let elmTime= document.getElementById("time");
+        elmTime.innerHTML=res.time;
+    });
+   },1000);
+
+        setInterval(() =>{
+       fetch("/currentduration", { method: "GET"}).then(async (data)=>{
+        let res = await data.json();
+
+        let elmTime= document.getElementById("duration");
+        elmTime.innerHTML=res.duration;
+    });
+   },2000);
+
     var Play = function() {
         fetch("/play", { method: "POST"});
     }
@@ -22,22 +50,31 @@
    fetch("/next", { method: "POST"})
    }
 
-   var CurrentSong = function() {
-   fetch("/currentsong", { method: "GET"})
-   }
+
 
 </script>
+<!-- <h1> /Spotify Play</h1> -->
+<div id="text">
+    /Spotify
+</div>
+<img id="logo" src="https://www.freepnglogos.com/uploads/spotify-logo-png/spotify-icon-black-17.png" width="200" />
+
+<!-- <button type="button" class="btn-primary" onclick="${code}"></button>
+<p th:text="${code}" /> -->
+
+
 <body>
-<h1> Spotify Play </h1>
-<!--<p th:text="${code}" /> -->
-<!-- <button type="button" class="btn btn-primary" onclick="${code}"></button> -->
+
+<div id="songname"></div>
+<hr class="rounded">
+<div id="time"></div>
+<div id="duration"></div>
+<hr class="rounded">
 <div class="button_container">
 <button type="button" class="btn prev" onclick="Previous()"></button>
 <button type="button" class="btn play" onclick="Play()"></button>
 <button type="button" class="btn pause" onclick="Pause()"></button>
 <button type="button" class="btn next" onclick="Next()"></button>
-    <button type="button" onclick="CurrentSong()"></button>
-
 </div>
 
 
