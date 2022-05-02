@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import org.apache.hc.core5.http.ParseException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import se.michaelthelin.spotify.SpotifyApi;
@@ -7,15 +8,15 @@ import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
 import se.michaelthelin.spotify.model_objects.miscellaneous.CurrentlyPlaying;
-import se.michaelthelin.spotify.model_objects.specification.Album;
-import se.michaelthelin.spotify.model_objects.specification.Paging;
-import se.michaelthelin.spotify.model_objects.specification.TrackSimplified;
-import se.michaelthelin.spotify.model_objects.specification.User;
+import se.michaelthelin.spotify.model_objects.miscellaneous.CurrentlyPlayingContext;
+import se.michaelthelin.spotify.model_objects.specification.*;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 import se.michaelthelin.spotify.requests.data.albums.GetAlbumRequest;
 import se.michaelthelin.spotify.requests.data.albums.GetAlbumsTracksRequest;
+import se.michaelthelin.spotify.requests.data.artists.GetArtistRequest;
 import se.michaelthelin.spotify.requests.data.player.*;
+import se.michaelthelin.spotify.requests.data.tracks.GetTrackRequest;
 import se.michaelthelin.spotify.requests.data.users_profile.GetUsersProfileRequest;
 
 import java.io.IOException;
@@ -29,6 +30,7 @@ public class PageController {
     static final URI redirectUri = SpotifyHttpManager.makeUri("http://localhost:8888/redir");
     static final String code = " ";
     static final String id = "6lQM0ttt55S8PtXkFHVURB";
+    static final String artistId = "6fOMl44jA4Sp5b9PpYCkzz";
     static final String userId = "ls8leqsl3wi0qibqp8hrcomzf";
 
     static final SpotifyApi spotifyApi = new SpotifyApi.Builder()
@@ -36,7 +38,6 @@ public class PageController {
             .setClientSecret(clientSecret)
             .setRedirectUri(redirectUri)
             .build();
-
 
 
     static final AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyApi.authorizationCodeUri()
@@ -73,11 +74,6 @@ public class PageController {
         System.out.println("URI: " + uri.toString());
     }
 
-    private static final GetUsersCurrentlyPlayingTrackRequest getUsersCurrentlyPlayingTrackRequest = spotifyApi
-            .getUsersCurrentlyPlayingTrack()
-//          .market(CountryCode.SE)
-//          .additionalTypes("track,episode")
-            .build();
 
     @RequestMapping("/user")
     public String user() {
@@ -181,6 +177,16 @@ public class PageController {
         }
     }
 
+    @RequestMapping(value="/currentartist", headers = "Accept=application/json")
+    @ResponseBody
+    public void CurrentArtist() {
+
+
+    }
+
+
+
+
     @GetMapping("/redir")
     public String redir(@RequestParam(name = "code", required = false) String code, Model model) {
         model.addAttribute("code", code);
@@ -242,7 +248,6 @@ public class PageController {
             } catch (IOException | SpotifyWebApiException | org.apache.hc.core5.http.ParseException e) {
                 System.out.println("Error: " + e.getMessage());
             }
-
 
             return "redir";
         }
