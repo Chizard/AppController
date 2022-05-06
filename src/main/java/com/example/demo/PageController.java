@@ -46,6 +46,12 @@ public class PageController {
 //          .show_dialog(true)
             .build();
 
+    public static void authorizationCodeUri_Sync() {
+        final URI uri = authorizationCodeUriRequest.execute();
+        System.out.println("SpotifyURI: " + uri.toString());
+        System.out.println("DiscordURI: " + "https://discord.com/api/oauth2/authorize?client_id=971347051902291988&redirect_uri=http%3A%2F%2Flocalhost%3A8888%2FdiscRedir&response_type=code&scope=email%20identify");
+    }
+
     private static final StartResumeUsersPlaybackRequest startResumeUsersPlaybackRequest = spotifyApi
             .startResumeUsersPlayback()
 //          .context_uri("spotify:album:5zT1JLIj9E57p3e1rFm9Uq")
@@ -69,10 +75,7 @@ public class PageController {
             .device_id("1b6c9a4b4760cb26b8aecf9b93bd66193dd75217")
             .build();
 
-    public static void authorizationCodeUri_Sync() {
-        final URI uri = authorizationCodeUriRequest.execute();
-        System.out.println("URI: " + uri.toString());
-    }
+
 
 
     @RequestMapping("/user")
@@ -181,17 +184,28 @@ public class PageController {
     @ResponseBody
     public void CurrentArtist() {
 
+    }
+
+    @GetMapping("/spotify")
+    public void Spotify(){
 
     }
 
+    @GetMapping("/discord")
+    public void Discord(){
 
+    }
 
+    @GetMapping("/discRedir")
+    public void discRedir(@RequestParam(name = "code", required = false) String code, Model model) {
+        model.addAttribute("code", code);
+
+        System.out.println("DiscordCode: " + code);
+    }
 
     @GetMapping("/redir")
     public String redir(@RequestParam(name = "code", required = false) String code, Model model) {
         model.addAttribute("code", code);
-        //System.out.println("check");
-
 
         final AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(code)
                 .build();
@@ -200,15 +214,16 @@ public class PageController {
 
             spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
             spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
-            System.out.println("Code: " + code);
+            System.out.println("SpotifyCode: " + code);
             System.out.println("AccessToken: " + spotifyApi.getAccessToken());
             System.out.println("RefreshToken: " + spotifyApi.getRefreshToken());
 
-            System.out.println("Expires in: " + authorizationCodeCredentials.getExpiresIn());
+            System.out.println("Expires in: " + authorizationCodeCredentials.getExpiresIn() + " seconds");
         } catch (IOException | SpotifyWebApiException | org.apache.hc.core5.http.ParseException e) {
             System.out.println("Error: " + e.getMessage());
         }
 
+        /*
             //Get name of Album
         final GetAlbumRequest getAlbumRequest = spotifyApi.getAlbum(id)
 //          .market(CountryCode.SE)
@@ -248,6 +263,7 @@ public class PageController {
             } catch (IOException | SpotifyWebApiException | org.apache.hc.core5.http.ParseException e) {
                 System.out.println("Error: " + e.getMessage());
             }
+            */
 
             return "redir";
         }

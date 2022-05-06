@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Spotify</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link th:href="@{/styles.css}" rel="stylesheet" />
+</head>
+<script>
+
+     setInterval(() =>{
+       fetch("/currentsong", { method: "GET"}).then(async (data)=>{
+        let res = await data.json();
+
+        let elmSongname= document.getElementById("songname");
+        elmSongname.innerHTML=res.name;
+    });
+   },1000);
+
+     setInterval(() =>{
+       fetch("/currenttime", { method: "GET"}).then(async (data)=>{
+        let res = await data.json();
+
+        let elmTime= document.getElementById("time");
+        elmTime.innerHTML=res.time;
+    });
+   },1000);
+
+        setInterval(() =>{
+       fetch("/currentduration", { method: "GET"}).then(async (data)=>{
+        let res = await data.json();
+
+        let elmTime= document.getElementById("duration");
+        elmTime.innerHTML=res.duration;
+    });
+   },1000);
+
+    var Play = function() {
+        fetch("/play", { method: "POST"});
+    }
+
+    var Pause = function() {
+    fetch("/pause", { method: "POST"});
+   }
+
+   var Previous = function() {
+   fetch("/previous", { method: "POST"})
+   }
+
+   var Next = function() {
+   fetch("/next", { method: "POST"})
+   }
+
+
+
+</script>
+<!-- <h1> /Spotify Play</h1> -->
+<div id="text">
+  /Spotify
+</div>
+<img id="logo" src="https://www.freepnglogos.com/uploads/spotify-logo-png/spotify-icon-black-17.png" width="200" />
+
+<!-- <button type="button" class="btn-primary" onclick="${code}"></button>
+<p th:text="${code}" /> -->
+
+
+<body>
+
+<div id="songname"></div>
+<hr class="rounded">
+<div class="time_container">
+  <div id="time"></div>
+  <div id="slash">/</div>
+  <div id="duration"></div>
+</div>
+<hr class="rounded">
+<div class="button_container">
+  <button type="button" class="btn prev" onclick="Previous()"></button>
+  <button type="button" class="btn play" onclick="Play()"></button>
+  <button type="button" class="btn pause" onclick="Pause()"></button>
+  <button type="button" class="btn next" onclick="Next()"></button>
+</div>
+
+
+</body>
+</html>
