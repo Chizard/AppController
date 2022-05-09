@@ -1,37 +1,34 @@
 package com.example.demo;
 
-import org.apache.hc.core5.http.ParseException;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
 import se.michaelthelin.spotify.model_objects.miscellaneous.CurrentlyPlaying;
-import se.michaelthelin.spotify.model_objects.miscellaneous.CurrentlyPlayingContext;
-import se.michaelthelin.spotify.model_objects.specification.*;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
-import se.michaelthelin.spotify.requests.data.albums.GetAlbumRequest;
-import se.michaelthelin.spotify.requests.data.albums.GetAlbumsTracksRequest;
-import se.michaelthelin.spotify.requests.data.artists.GetArtistRequest;
-import se.michaelthelin.spotify.requests.data.player.*;
-import se.michaelthelin.spotify.requests.data.tracks.GetTrackRequest;
-import se.michaelthelin.spotify.requests.data.users_profile.GetUsersProfileRequest;
+import se.michaelthelin.spotify.requests.data.player.PauseUsersPlaybackRequest;
+import se.michaelthelin.spotify.requests.data.player.SkipUsersPlaybackToNextTrackRequest;
+import se.michaelthelin.spotify.requests.data.player.SkipUsersPlaybackToPreviousTrackRequest;
+import se.michaelthelin.spotify.requests.data.player.StartResumeUsersPlaybackRequest;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.*;
+
 
 @org.springframework.stereotype.Controller
 public class PageController {
-    static final String clientId = "KEKL";
-    static final String clientSecret = "KEKW";
+
+    static final String clientId = "89a4bb620ad848989b787b700f508fe3";
+    static final String clientSecret = "f37b655edd98488b9a7185fd0eab7036";
     static final URI redirectUri = SpotifyHttpManager.makeUri("http://localhost:8888/redir");
     static final String code = " ";
     static final String id = "6lQM0ttt55S8PtXkFHVURB";
     static final String artistId = "6fOMl44jA4Sp5b9PpYCkzz";
     static final String userId = "ls8leqsl3wi0qibqp8hrcomzf";
+
 
     static final SpotifyApi spotifyApi = new SpotifyApi.Builder()
             .setClientId(clientId)
