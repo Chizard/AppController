@@ -25,8 +25,8 @@ import java.util.*;
 
 @org.springframework.stereotype.Controller
 public class PageController {
-    static final String clientId = "89a4bb620ad848989b787b700f508fe3";
-    static final String clientSecret = "f37b655edd98488b9a7185fd0eab7036";
+    static final String clientId = "KEKL";
+    static final String clientSecret = "KEKW";
     static final URI redirectUri = SpotifyHttpManager.makeUri("http://localhost:8888/redir");
     static final String code = " ";
     static final String id = "6lQM0ttt55S8PtXkFHVURB";
