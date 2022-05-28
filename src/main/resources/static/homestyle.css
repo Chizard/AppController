@@ -1,0 +1,43 @@
+body {
+    background-image: url("/images/4218996.jpg");
+    background-color: #000000;
+  /* background-position: center; */
+    background-repeat: no-repeat;
+  /* background-size: 100%; */
+}
+
+
+h1 {
+    color: #ffff;
+}
+
+
+.button_container {
+    display: flex;
+    justify-content: center;
+    margin-top: 400px;
+}
+
+.button {
+  /* can display as something else (block) */
+  display: inline-block;
+  border: none;
+  font: inherit;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 1);
+  padding: 8px 12px;
+  height: 200px;
+  width: 200px;
+  display: flex;
+  flex-flow: column;
+}
+
+.spotify {
+  background-color: green;
+  background: url("images/Spotify_icon-icons.com_66783.png") center/50% no-repeat;
+}
+
+.discord {
+  background-color: green;
+  background: url("images/iconfinder-discord-4661587_122459.png") center/50% no-repeat;
+}

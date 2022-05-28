@@ -111,3 +111,18 @@ strong {
 .pause:active {
     background: url('https://icons.getbootstrap.com/assets/icons/pause-fill.svg') center/100% no-repeat;
 }
+
+.buttons {
+    display: flex;
+    margin-top: -3%;
+}
+
+.button {
+  height: 200px;
+  width: 200px;
+}
+
+.discord {
+  background-color: black;
+  background: url("images/iconfinder-discord-4661587_122459.png") center/50% no-repeat;
+}

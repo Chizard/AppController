@@ -23,7 +23,7 @@ public class PageController {
 
     static final String clientId = "89a4bb620ad848989b787b700f508fe3";
     static final String clientSecret = "f37b655edd98488b9a7185fd0eab7036";
-    static final URI redirectUri = SpotifyHttpManager.makeUri("http://localhost:8888/redir");
+    static final URI redirectUri = SpotifyHttpManager.makeUri("http://localhost:8888/login");
     static final String code = " ";
     static final String id = "6lQM0ttt55S8PtXkFHVURB";
     static final String artistId = "6fOMl44jA4Sp5b9PpYCkzz";
@@ -75,11 +75,16 @@ public class PageController {
 
 
 
-    @RequestMapping("/user")
-    public String user() {
-        return "user";
-    }
+    @RequestMapping("/redir")
+    public void redir() {
 
+    }
+/*
+    @RequestMapping("/login")
+    public void login() {
+
+    }
+*/
     @PostMapping("/play")
     public void play(){
         try {
@@ -200,8 +205,8 @@ public class PageController {
         System.out.println("DiscordCode: " + code);
     }
 
-    @GetMapping("/redir")
-    public String redir(@RequestParam(name = "code", required = false) String code, Model model) {
+    @GetMapping("/login")
+    public String login(@RequestParam(name = "code", required = false) String code, Model model) {
         model.addAttribute("code", code);
 
         final AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(code)
@@ -262,7 +267,7 @@ public class PageController {
             }
             */
 
-            return "redir";
+            return "login";
         }
 
     }
